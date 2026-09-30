@@ -104,6 +104,8 @@ function statusForPoint(routeId,pointId){const key=pointKey(routeId,pointId);if(
 function labelForPoint(routeId,pointId){const st=statusForPoint(routeId,pointId);return st==='passed'?'пройдена':st==='viewed'?'просмотрена':'впереди'}
 function exploredCount(){const r=route();return r.points.filter(p=>viewed.has(pointKey(r.id,p.id))||passed.has(pointKey(r.id,p.id))).length}
 function show(name,source='intro'){
+ document.body.classList.toggle('walk-wide',name==='yandex');
+ if(name==='intro')requestAnimationFrame(fitCurtainLogo);
  if(name==='routes'){routeListOrigin=source;routeChoiceExpanded=false;}
  if(name!=='prologue') closePrologueMenu();
  introScreen.hidden=name!=='intro'; if(prologueScreen)prologueScreen.hidden=name!=='prologue'; routesScreen.hidden=name!=='routes'; yandexScreen.hidden=name!=='yandex';
@@ -228,7 +230,7 @@ function updateDrawerHint(){
  if(canScroll){
    const atTop=area.scrollTop<=2;
    const atBottom=area.scrollTop+area.clientHeight>=area.scrollHeight-2;
-   drawerBottomHint.textContent=atTop?'↕ листайте':(atBottom?'↑ листайте':'↕ листайте');
+   drawerBottomHint.textContent=atTop?'↕ листайте':(atBottom?'↑ наверх':'↕ листайте');
  }
 }
 
@@ -239,15 +241,14 @@ function updatePrologueMenuHint(){
  // Measure only the currently visible section and ignore the extra bottom space
  // reserved for the hint itself. This keeps the hint hidden on compact forms
  // that already fit completely on screen.
- scroll.classList.remove('has-scroll-hint');
+ // Keep the reserved hint space stable during scrolling.
  const activePanel=[...scroll.children].find(node=>!node.hidden);
  const contentHeight=activePanel?activePanel.scrollHeight:0;
  const canScroll=contentHeight>scroll.clientHeight+12;
 
  prologueMenuBottomHint.hidden=!canScroll;
- scroll.classList.toggle('has-scroll-hint',canScroll);
+ scroll.classList.add('has-scroll-hint');
  if(!canScroll){
-   scroll.scrollTop=0;
    return;
  }
 
@@ -793,7 +794,7 @@ function startSelectedRoute(){$('fullRouteAudio')?.pause();closeContentModal(rou
 function rememberHomeOrigin(){
  homeReturnState={routeId:selectedRoute,pointId:point().id,sheetOpen:!pointSheet.classList.contains('closed')};
  try{sessionStorage.setItem(HOME_RETURN_KEY,JSON.stringify(homeReturnState));}catch(error){}
- const button=$('returnToRoute');if(button){button.hidden=false;button.querySelector('span').textContent=`К маршруту ${String(selectedRoute).padStart(2,'0')} · точка ${point().id}`;}
+ const button=$('returnToRoute');if(button){button.hidden=false;button.querySelector('span').textContent=`Маршрут ${String(selectedRoute).padStart(2,'0')} · точка ${point().id}`;}
  show('intro');
 }
 function restoreHomeOrigin(){
@@ -803,7 +804,7 @@ function restoreHomeOrigin(){
  show('yandex','intro');setTimeout(()=>{updateRouteUI();homeReturnState.sheetOpen?openSheet():closeSheet();},180);
 }
 try{homeReturnState=JSON.parse(sessionStorage.getItem(HOME_RETURN_KEY)||'null');}catch(error){homeReturnState=null;}
-if(homeReturnState){const button=$('returnToRoute');if(button){button.hidden=false;button.querySelector('span').textContent=`К маршруту ${String(homeReturnState.routeId).padStart(2,'0')} · точка ${homeReturnState.pointId}`;}}
+if(homeReturnState){const button=$('returnToRoute');if(button){button.hidden=false;button.querySelector('span').textContent=`Маршрут ${String(homeReturnState.routeId).padStart(2,'0')} · точка ${homeReturnState.pointId}`;}}
 safeOn('chooseRoute','click',()=>{const button=$('chooseRoute');if(button?.classList.contains('masks-swapped'))return;button?.classList.add('masks-swapped');setTimeout(()=>{guideStep=0;renderGuideStep();openContentModal(walkGuideModal)},820);setTimeout(()=>button?.classList.remove('masks-swapped'),1400);});
 safeOn('goMapFromIntro','click',()=>show('routes'));
 safeOn('returnToRoute','click',restoreHomeOrigin);
@@ -824,7 +825,7 @@ safeOn('closeWalkGuide','click',()=>closeContentModal(walkGuideModal));
 safeOn('guideRouteSelect','click',()=>{closeContentModal(walkGuideModal);show('routes','intro');});
 function openRouteDetailFrom(origin){routeDetailOrigin=origin;$('startRouteFromDetail').textContent=origin==='drawer'?'Продолжить прогулку':'Начать прогулку';renderRouteDetail();openContentModal(routeDetailModal)}
 safeOn('openRouteDetail','click',()=>openRouteDetailFrom('routes'));
-let guideStep=0;function renderGuideStep(){document.querySelectorAll('[data-guide-slide]').forEach(el=>el.classList.toggle('active',Number(el.dataset.guideSlide)===guideStep));const dots=$('guideDots');if(dots){dots.textContent=[0,1,2,3].map(i=>i===guideStep?'●':'○').join(' ');dots.setAttribute('aria-label',`Шаг ${guideStep+1} из 4`);} $('guidePrev').disabled=guideStep===0;$('guideNext').disabled=guideStep===3;}safeOn('guidePrev','click',()=>{guideStep=Math.max(0,guideStep-1);renderGuideStep()});safeOn('guideNext','click',()=>{guideStep=Math.min(3,guideStep+1);renderGuideStep()});renderGuideStep();
+let guideStep=0;function renderGuideStep(){document.querySelectorAll('[data-guide-slide]').forEach(el=>el.classList.toggle('active',Number(el.dataset.guideSlide)===guideStep));const dots=$('guideDots');if(dots){dots.textContent=[0,1,2,3].map(i=>i===guideStep?'●':'○').join(' ');dots.setAttribute('aria-label',`Шаг ${guideStep+1} из 4`);} $('guidePrev').disabled=guideStep===0;$('guideNext').disabled=guideStep===3;requestAnimationFrame(fitGuideCard);}safeOn('guidePrev','click',()=>{guideStep=Math.max(0,guideStep-1);renderGuideStep()});safeOn('guideNext','click',()=>{guideStep=Math.min(3,guideStep+1);renderGuideStep()});renderGuideStep();
 safeOn('closeRouteDetail','click',()=>{$('fullRouteAudio')?.pause();closeContentModal(routeDetailModal);if(routeDetailOrigin==='drawer')setTimeout(()=>openDrawer('points'),270)});
 safeOn('startRouteFromDetail','click',startSelectedRoute);
 safeOn('openDrawer','click',()=>openDrawer('points'));
@@ -1260,3 +1261,75 @@ function fitRouteSelectLayout(){
 }
 
 // v29 minor story header cleanup
+
+// Fit the actual card, including desktop review frame and mobile browser chrome.
+// ResizeObserver reacts to browser bars, rotation, resizing and modal opening.
+let guideFitRunning=false;
+function fitGuideCard(){
+ const modal=document.getElementById('walkGuideModal');
+ const active=modal?.querySelector('[data-guide-slide].active');
+ if(guideFitRunning || !active || modal.hidden || active.clientHeight<1) return;
+ guideFitRunning=true;
+ const h=active.clientHeight,w=active.clientWidth;
+ modal.classList.toggle('guide-short',h<445 || w<340);
+ const sample=modal.querySelector('[data-guide-slide="3"]').cloneNode(true);
+ sample.removeAttribute('data-guide-slide');
+ sample.classList.add('active');sample.setAttribute('aria-hidden','true');
+ sample.style.cssText=`position:fixed!important;left:-10000px!important;top:0!important;width:${w}px!important;height:${h}px!important;max-height:none!important;flex:none!important;visibility:hidden!important;pointer-events:none!important;`;
+ active.parentElement.appendChild(sample);
+ let body=Math.min(w<340?20:24,Math.max(17,17+(h-360)/65));
+ let title=Math.min(w<340?28:34,body*1.42);
+ let fourthHero=Math.min(210,Math.max(105,h*.3));
+ const set=(key,value)=>{const v=value.toFixed(1)+'px';if(modal.style.getPropertyValue(key)!==v)modal.style.setProperty(key,v);};
+ const apply=()=>{set('--guide-body',body);set('--guide-title',title);set('--guide-hero-four',fourthHero);};
+ apply();
+ // Find one readable type scale against the complete fourth card.
+ for(let i=0;i<40 && sample.scrollHeight>h+1;i++){
+  if(fourthHero>110)fourthHero=Math.max(110,fourthHero-10);
+  else if(body>16){body=Math.max(16,body-.25);title=Math.max(21,body*1.42);}
+  else break;
+  apply();
+ }
+ // Enlarge the fourth illustration only while all of its text still fits.
+ const fitted=fourthHero;
+ for(let candidate=fitted+10;candidate<=Math.min(280,h*.46);candidate+=10){
+  fourthHero=candidate;apply();
+  if(sample.scrollHeight>h+1){fourthHero=candidate-10;apply();break;}
+ }
+ set('--guide-hero',Math.min(340,Math.max(120,h*.57)));
+ sample.remove();guideFitRunning=false;
+}
+if('ResizeObserver' in window){
+ const guideObserver=new ResizeObserver(()=>requestAnimationFrame(fitGuideCard));
+ document.querySelectorAll('#walkGuideModal .guide-slide').forEach(card=>guideObserver.observe(card));
+}
+window.addEventListener('resize',fitGuideCard,{passive:true});
+
+// Refresh map dimensions when a tablet rotates or its viewport changes.
+window.addEventListener("resize",()=>{if(!yandexScreen.hidden)resizeMapSoon();});
+
+// Match the logo to the curtain edge after object-fit:cover and bottom cropping.
+function fitCurtainLogo(){
+ const screen=document.querySelector('.intro-screen');
+ const bg=screen?.querySelector('.intro-bg');
+ if(!bg || !bg.naturalWidth || screen.clientWidth<443)return;
+ const w=screen.clientWidth,h=screen.clientHeight;
+ const scale=Math.max(w/bg.naturalWidth,h/bg.naturalHeight);
+ const cropX=(bg.naturalWidth*scale-w)/2;
+ const cropY=Math.max(0,bg.naturalHeight*scale-h);
+ const top=screen.querySelector('.intro-topbar').offsetTop;
+ // Conservative source-image curtain edge at the bottom of the logo.
+ const edge=[[0,230],[100,310],[200,430],[300,565],[400,690],[500,735],[700,780],[1672,885]];
+ let width=150;
+ for(let n=0;n<8;n++){
+  const sy=(cropY+top+width*446/2048+8)/scale;
+  let x=edge[edge.length-1][1];
+  for(let i=1;i<edge.length;i++)if(sy<=edge[i][0]){const a=edge[i-1],b=edge[i];x=a[1]+(b[1]-a[1])*(sy-a[0])/(b[0]-a[0]);break;}
+  width=Math.min(166,Math.max(72,w-18-60-(x*scale-cropX)-10));
+ }
+ screen.style.setProperty('--curtain-logo-width',width.toFixed(1)+'px');
+}
+window.addEventListener('resize',fitCurtainLogo,{passive:true});
+window.addEventListener('load',fitCurtainLogo);
+new ResizeObserver(fitCurtainLogo).observe(document.getElementById('app'));
+fitCurtainLogo();

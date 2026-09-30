@@ -8070,7 +8070,7 @@ html,body{background:#080807 !important; font-family:Georgia,'Times New Roman',s
   margin:0 0 3px !important;
   font-size:22px !important;
   line-height:1 !important;
-  white-space:nowrap;
+  white-space:normal;
   letter-spacing:-.015em;
 }
 .point-sheet h3[data-title-size="medium"]{font-size:19px !important}
@@ -10268,3 +10268,264 @@ html,body{width:100%;height:100%;margin:0;background:#dfd5c5}
 #routeDetailModal .route-cast-heading img{order:-1;width:83px!important;height:92px!important;transform:none!important}
 #routeDetailModal .route-cast-heading h4{font-size:25px!important}
 @media(max-width:360px){#routeDetailModal .route-cast-heading img{width:68px!important;height:78px!important}#routeDetailModal .route-cast-heading h4{font-size:22px!important}}
+
+/* v20: viewport-sized guide, intrinsic map sheet and stable scroll hints. */
+#walkGuideModal .content-modal-sheet{display:flex!important;flex-direction:column!important;height:100%!important;max-height:100%!important;overflow:hidden!important}
+#walkGuideModal .content-modal-head,#walkGuideModal .content-modal-actions{flex:0 0 auto!important}
+#walkGuideModal .guide-slides-wrap{display:flex!important;flex-direction:column!important;flex:1 1 0!important;min-height:0!important;overflow:hidden!important;padding:10px 16px 0!important;gap:8px!important}
+#walkGuideModal .guide-slide{flex:1 1 0!important;min-height:0!important;height:auto!important;width:100%!important;overflow:auto!important;padding:16px!important}
+#walkGuideModal .guide-slide:not(.active){display:none!important}
+#walkGuideModal .guide-slide-controls{flex:0 0 48px!important;padding:0 4px!important;margin:0!important;height:48px!important}
+#walkGuideModal .guide-slide-controls button{width:42px!important;height:42px!important;flex-shrink:0}
+#walkGuideModal .content-modal-actions{padding:10px 16px max(12px,env(safe-area-inset-bottom))!important}
+#walkGuideModal .guide-slide h4{margin:8px 0 12px!important;font-size:clamp(24px,4vw,30px)!important;line-height:1.12!important}
+#walkGuideModal .guide-slide p{font-size:16px!important;line-height:1.4!important;margin:0!important;padding:0!important}
+#walkGuideModal .guide-slide:not(.guide-slide-four) p{max-width:72%!important}
+#walkGuideModal .guide-small-character{height:min(48%,210px)!important;max-height:210px!important;width:42%!important;bottom:0!important;right:0!important;object-fit:contain!important}
+#walkGuideModal .guide-slide-four.active{display:grid!important;grid-template-columns:minmax(0,1fr) 34%!important;grid-template-rows:auto auto auto auto!important;align-content:start!important;gap:8px 12px!important}
+#walkGuideModal .guide-slide-four .guide-step-label{grid-column:1/-1;grid-row:1}
+#walkGuideModal .guide-slide-four h4{grid-column:1/-1;grid-row:2;margin:0!important}
+#walkGuideModal .guide-slide-four .guide-side-text{grid-column:1;grid-row:3;align-self:center!important;margin:0!important}
+#walkGuideModal .guide-slide-four .guide-character-top{grid-column:2;grid-row:3;position:static!important;width:100%!important;height:150px!important;align-self:center!important;object-fit:contain!important}
+#walkGuideModal .guide-slide-four .guide-bottom-text{grid-column:1/-1;grid-row:4;padding:0!important;margin:0!important}
+.point-sheet:not(.closed){top:auto!important;bottom:0!important;height:auto!important;max-height:calc(100% - 167px)!important;display:flex!important;flex-direction:column!important;padding-bottom:max(12px,env(safe-area-inset-bottom))!important;overflow:hidden!important}
+.point-sheet:not(.closed) .sheet-topbar{flex:0 0 40px!important;height:40px!important}
+.point-sheet:not(.closed) .point-content{flex:0 1 auto!important;min-height:0!important;overflow-y:auto!important;padding-bottom:0!important}
+.point-sheet .audio-player{height:auto!important;min-height:0!important;padding:8px 10px!important;margin:0!important;gap:10px!important}
+.point-sheet .audio-play{width:40px!important;height:40px!important;min-width:40px!important;flex:0 0 40px!important}
+.point-sheet .audio-play:before{left:15px!important;top:11px!important;border-width:9px 0 9px 12px!important}
+.point-sheet .audio-play.playing:before{left:12px!important;top:11px!important;border:0!important;height:18px!important}
+.point-sheet .point-nav{margin-top:10px!important;padding-top:10px!important}
+@media(min-width:700px){.point-sheet:not(.closed){max-height:calc(100% - 110px)!important}}
+#routeDetailModal .route-detail-ends::before{content:none!important}
+#routeDetailModal .route-detail-ends>div:first-child::after{content:"";position:absolute;left:-18px;top:7.5px;width:1px;height:calc(100% + 18px);background:var(--active-route-color);opacity:.65}
+.intro-content-stack .intro-bottom .route-return{width:auto!important;max-width:100%!important;min-width:50%!important;padding:0 12px!important;font-size:11px!important;overflow:visible!important}
+.intro-content-stack .intro-bottom .route-return span{flex:0 0 auto!important;white-space:nowrap!important;overflow:visible!important}
+#prologueMenuScroll{padding-bottom:72px!important;scrollbar-gutter:stable;overflow-anchor:none}
+#prologueMenuScroll.has-scroll-hint{padding-bottom:72px!important}
+.point-story-scroll,.drawer-scroll-area{overflow-anchor:none!important;scrollbar-gutter:stable}
+#walkGuideModal .guide-slide:not(.guide-slide-four) p{max-width:60%!important}
+#walkGuideModal .guide-small-character{width:38%!important}
+/* Hint visibility must never resize or translate the scrolling photo list. */
+#galleryThumbs.camera-gallery-list,#galleryThumbs.camera-gallery-list.needs-hint,#galleryThumbs.camera-gallery-list.single-hidden{transform:none!important}
+/* v21: scale against the real card/popup, including the desktop phone frame. */
+#walkGuideModal .guide-slide{container-type:size;container-name:guide-card;overflow-x:hidden!important}
+#walkGuideModal .guide-slide h4{max-width:100%!important;overflow-wrap:break-word}
+#walkGuideModal .guide-small-character{height:48%!important;max-height:330px!important;width:38%!important}
+#walkGuideModal .guide-slide-four.active{grid-template-columns:minmax(0,1fr) 40%!important;grid-template-rows:auto auto minmax(min-content,1fr) auto!important}
+#walkGuideModal .guide-slide-four .guide-character-top{height:clamp(150px,38cqh,320px)!important;max-height:none!important;width:100%!important}
+#walkGuideModal .guide-slide-four p{max-width:100%!important}
+@container guide-card (min-height:440px){
+ #walkGuideModal .guide-step-label{font-size:15px!important}
+ #walkGuideModal .guide-slide h4{font-size:29px!important;margin-bottom:16px!important}
+ #walkGuideModal .guide-slide p{font-size:18px!important;line-height:1.45!important}
+ #walkGuideModal .guide-small-character{width:57%!important;height:52%!important}
+ #walkGuideModal .guide-slide:not(.guide-slide-four) p{max-width:100%!important}
+}
+@container guide-card (min-height:570px){
+ #walkGuideModal .guide-slide h4{font-size:32px!important}
+ #walkGuideModal .guide-slide p{font-size:20px!important;line-height:1.48!important}
+ #walkGuideModal .guide-small-character{width:65%!important;height:55%!important}
+}
+.point-sheet{container-type:inline-size;container-name:point-popup;box-sizing:border-box!important;min-width:0!important;max-width:100%!important}
+.point-sheet .point-content{width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box!important;overflow-x:hidden!important}
+.point-sheet .point-sheet-top,.point-sheet .point-sheet-top>div,.point-sheet .point-title-line{width:100%!important;min-width:0!important;max-width:100%!important;box-sizing:border-box!important}
+.point-sheet .point-title-line h3,.point-sheet h3[data-title-size]{font-size:clamp(21px,5.4cqw,28px)!important;line-height:1.16!important;min-width:0!important;max-width:100%!important;width:100%!important;white-space:normal!important;overflow-wrap:anywhere!important;word-break:normal!important;flex:1 1 0!important}
+.point-sheet .point-now,.point-sheet .point-summary{min-width:0!important;max-width:100%!important;overflow-wrap:break-word!important;white-space:normal!important}
+.point-sheet .audio-player{width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box!important}
+.point-sheet .audio-track-wrap{min-width:0!important;flex:1 1 0!important;max-width:100%!important}
+.point-sheet .audio-seek{min-width:0!important;width:100%!important;max-width:100%!important;box-sizing:border-box!important}
+.point-sheet .point-nav{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)!important;min-width:0!important;gap:8px!important}
+.point-sheet .sheet-nav{min-width:0!important;max-width:100%!important}
+@container point-popup (max-width:340px){.point-sheet .sheet-nav{font-size:14px!important;gap:5px!important}.point-sheet .nav-icon-group{gap:6px!important}}
+/* v22: keep illustrations in the content flow instead of distant bottom corners. */
+#walkGuideModal .guide-slide.active:not(.guide-slide-four){display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:auto auto auto minmax(0,1fr)!important;gap:10px!important}
+#walkGuideModal .guide-slide:not(.guide-slide-four) h4{margin:0!important}
+#walkGuideModal .guide-slide:not(.guide-slide-four) p{max-width:100%!important}
+#walkGuideModal .guide-small-character{position:static!important;grid-row:4;align-self:stretch!important;justify-self:stretch!important;width:100%!important;height:100%!important;min-height:0!important;max-height:none!important;object-fit:contain!important;object-position:right bottom!important}
+#walkGuideModal .guide-small-character.curtain-left{object-position:left bottom!important}
+#walkGuideModal .guide-slide-four.active{grid-template-columns:minmax(0,1fr) 43%!important;grid-template-rows:auto auto auto auto!important;align-content:start!important;gap:14px 10px!important}
+#walkGuideModal .guide-slide-four h4{font-size:26px!important;max-width:100%!important;margin:0!important}
+#walkGuideModal .guide-slide-four .guide-side-text{align-self:start!important;margin:0!important}
+#walkGuideModal .guide-slide-four .guide-character-top{height:clamp(160px,43cqh,290px)!important;align-self:start!important;object-position:right top!important}
+#walkGuideModal .guide-slide-four .guide-bottom-text{margin:0!important}
+@container guide-card (max-height:430px){
+ #walkGuideModal .guide-slide-four.active{gap:8px 10px!important;grid-template-columns:minmax(0,1fr) 34%!important}
+ #walkGuideModal .guide-slide-four h4{font-size:24px!important}
+ #walkGuideModal .guide-slide-four .guide-character-top{height:150px!important}
+}
+
+/* v23: one fluid device layout; only fine-pointer desktop gets a review frame. */
+html,body{width:100%!important;height:100%!important;overflow:hidden!important}
+body{display:block!important}
+#app.app{width:100%!important;max-width:none!important;height:100dvh!important;min-height:0!important;max-height:none!important;margin:0!important;border-radius:0!important;box-shadow:none!important}
+.content-modal,.point-story-modal{max-width:100%!important;overflow-x:hidden!important}
+@media(min-width:1200px) and (hover:hover) and (pointer:fine){
+ body{display:grid!important;place-items:center!important}
+ #app.app{width:467px!important;height:min(900px,calc(100dvh - 42px))!important;margin:auto!important;border-radius:34px!important;box-shadow:0 0 0 7px #382923,0 20px 45px rgba(40,25,22,.25)!important}
+}
+@media(pointer:coarse){
+ #app.app{width:100%!important;height:100dvh!important;border-radius:0!important;box-shadow:none!important}
+}
+/* Card typography and image bounds are based on its available width AND height. */
+#walkGuideModal{--guide-body:18px;--guide-title:27px;--guide-hero:200px}
+#walkGuideModal .content-modal-sheet{border-radius:0!important;width:100%!important;max-width:none!important;min-height:0!important}
+#walkGuideModal .content-modal-head{padding:16px 18px 12px!important;gap:12px!important}
+#walkGuideModal .content-modal-head>div{min-width:0}
+#walkGuideModal .content-modal-head h3{font-size:clamp(25px,5vw,32px)!important;line-height:1.08!important;margin:4px 0 0!important}
+#walkGuideModal .guide-slides-wrap{padding:10px 16px 0!important;justify-content:center!important;align-items:center!important;gap:10px!important;overflow:hidden!important}
+#walkGuideModal .guide-slide{container-type:normal!important;flex:1 1 0!important;min-height:0!important;max-height:580px!important;height:auto!important;width:100%!important;max-width:660px!important;box-sizing:border-box!important;padding:18px!important;overflow:hidden!important;scrollbar-width:none!important}
+#walkGuideModal .guide-slide.active:not(.guide-slide-four){display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:auto auto auto minmax(0,1fr)!important;gap:12px!important}
+#walkGuideModal .guide-slide .guide-step-label{font-size:13px!important;line-height:1.2!important;letter-spacing:.09em!important}
+#walkGuideModal .guide-slide h4,#walkGuideModal .guide-slide-four h4{font-size:var(--guide-title)!important;line-height:1.12!important;max-width:100%!important;width:auto!important;margin:0!important}
+#walkGuideModal .guide-slide p,#walkGuideModal .guide-slide-four p{font-size:var(--guide-body)!important;line-height:1.4!important;max-width:100%!important;width:auto!important;margin:0!important;padding:0!important}
+#walkGuideModal .guide-slide .guide-small-character{position:static!important;grid-row:4;justify-self:end!important;align-self:center!important;width:min(64%,240px)!important;height:100%!important;max-height:var(--guide-hero)!important;min-height:0!important;object-fit:contain!important;object-position:right center!important;opacity:1!important}
+#walkGuideModal .guide-slide .guide-small-character.curtain-left{justify-self:start!important;object-position:left center!important}
+#walkGuideModal .guide-slide-four.active{display:grid!important;grid-template-columns:minmax(0,1fr) 36%!important;grid-template-rows:auto auto minmax(min-content,1fr) auto!important;gap:12px 10px!important;align-content:stretch!important}
+#walkGuideModal .guide-slide-four .guide-side-text{align-self:center!important}
+#walkGuideModal .guide-slide-four .guide-character-top{position:static!important;align-self:center!important;width:100%!important;height:var(--guide-hero)!important;max-height:210px!important;min-height:0!important;object-fit:contain!important;object-position:right center!important}
+#walkGuideModal .guide-slide-controls{width:100%!important;max-width:660px!important;box-sizing:border-box!important;flex:0 0 44px!important;height:44px!important;padding:0!important}
+#walkGuideModal .content-modal-actions{width:100%!important;box-sizing:border-box!important;padding:10px 16px max(12px,env(safe-area-inset-bottom))!important}
+#walkGuideModal .content-modal-actions button{max-width:660px!important;width:100%!important;margin:auto!important;display:block!important}
+#walkGuideModal.guide-short .guide-slide-four.active{grid-template-columns:minmax(0,1fr) 29%!important;gap:8px!important}
+#walkGuideModal.guide-short .guide-slide{padding:14px!important}
+#walkGuideModal.guide-short .guide-slide.active:not(.guide-slide-four){gap:8px!important}
+/* Tablet keeps the mobile hierarchy but uses real screen width. */
+@media(min-width:700px) and (max-width:1199px){
+ .intro-topbar{left:5vw!important;right:4vw!important;top:24px!important;grid-template-columns:110px minmax(0,1fr) 48px!important;column-gap:24px!important}
+ .intro-topbar .museum-logo-halo{width:clamp(190px,28vw,280px)!important;justify-self:end!important;margin-right:20px!important}
+ .intro-topbar .intro-sponsor,.intro-topbar .intro-sponsor img{width:110px!important}
+ .intro-content-stack{left:6vw!important;right:6vw!important;top:18dvh!important;bottom:5dvh!important;width:auto!important}
+ .intro-content-stack .intro-copy h1{font-size:clamp(56px,8vw,88px)!important;max-width:65%!important}
+ .intro-content-stack .intro-copy p{font-size:clamp(20px,2.5vw,25px)!important;width:54%!important;max-width:440px!important;line-height:1.35!important}
+ .intro-content-stack .intro-bottom{width:52%!important;max-width:460px!important}
+ .intro-content-stack .intro-bottom .btn{height:60px!important;font-size:21px!important}
+ .intro-content-stack .hero{left:auto!important;right:0!important;bottom:-4dvh!important;height:clamp(290px,44dvh,480px)!important;max-width:55%!important;object-fit:contain!important;object-position:right bottom!important}
+ .route-select-head,.route-select-main{max-width:860px!important;margin-inline:auto!important;box-sizing:border-box!important;width:100%!important}
+ .route-choice-text strong{font-size:18px!important}.route-choice-text em{font-size:22px!important}
+ .route-detail-modal .content-modal-scroll{padding-inline:max(28px,calc((100% - 820px)/2))!important}
+ .point-story-head,.info-story-article{max-width:820px!important;margin-inline:auto!important}
+ #walkGuideModal .guide-slide{max-width:660px!important;padding:28px!important}
+}
+@media(min-width:700px) and (max-width:1199px) and (orientation:landscape){
+ .intro-content-stack{top:20dvh!important;bottom:4dvh!important}
+ .intro-content-stack .intro-copy h1{font-size:clamp(48px,6vw,72px)!important}
+ .intro-content-stack .hero{height:58dvh!important}
+ #walkGuideModal .guide-slide.active:not(.guide-slide-four){grid-template-columns:minmax(0,1fr) 30%!important;grid-template-rows:auto auto minmax(0,1fr)!important}
+ #walkGuideModal .guide-slide:not(.guide-slide-four) .guide-step-label{grid-column:1;grid-row:1}
+ #walkGuideModal .guide-slide:not(.guide-slide-four) h4{grid-column:1;grid-row:2}
+ #walkGuideModal .guide-slide:not(.guide-slide-four) p{grid-column:1;grid-row:3}
+ #walkGuideModal .guide-slide .guide-small-character{grid-column:2;grid-row:1/4;width:100%!important}
+}
+/* Old overlay shells also carried their own simulated phone outline. */
+.content-modal,.info-gallery-fullscreen{left:0!important;top:0!important;right:0!important;bottom:0!important;width:100%!important;height:100dvh!important;max-width:none!important;transform:none!important;border-radius:0!important;box-shadow:none!important;box-sizing:border-box!important}
+.content-modal-sheet{border-radius:0!important;max-height:100%!important;box-sizing:border-box!important}
+#walkGuideModal .content-modal-sheet{padding:0!important;border:0!important}
+#walkGuideModal .content-modal-head{width:100%!important;max-width:696px!important;box-sizing:border-box!important;margin-inline:auto!important}
+@media(min-width:1200px) and (hover:hover) and (pointer:fine){
+ .content-modal,.info-gallery-fullscreen{left:50%!important;top:50%!important;right:auto!important;bottom:auto!important;width:467px!important;height:min(900px,calc(100dvh - 42px))!important;transform:translate(-50%,-50%)!important;border-radius:34px!important;box-shadow:0 0 0 7px #382923,0 20px 45px rgba(40,25,22,.25)!important}
+}
+@media(pointer:coarse){
+ .content-modal,.info-gallery-fullscreen{left:0!important;top:0!important;width:100%!important;height:100dvh!important;transform:none!important;border-radius:0!important;box-shadow:none!important}
+}
+
+/* v24: one type scale measured against step four, separate illustration space. */
+#walkGuideModal .guide-slide-four.active{grid-template-rows:auto auto auto auto!important;align-content:start!important;gap:14px 12px!important;grid-template-columns:minmax(0,1fr) 37%!important}
+#walkGuideModal .guide-slide-four .guide-side-text{align-self:start!important}
+#walkGuideModal .guide-slide-four .guide-character-top{height:var(--guide-hero-four,210px)!important;max-height:none!important;align-self:start!important;object-position:right top!important}
+#walkGuideModal .guide-slide .guide-small-character{width:min(76%,300px)!important;max-height:var(--guide-hero)!important;align-self:end!important;object-position:right bottom!important}
+#walkGuideModal .guide-slide[data-guide-slide="1"].active{grid-template-columns:42% minmax(0,1fr)!important;grid-template-rows:auto auto minmax(0,1fr)!important;gap:14px 12px!important}
+#walkGuideModal .guide-slide[data-guide-slide="1"] .guide-step-label{grid-column:1/-1;grid-row:1}
+#walkGuideModal .guide-slide[data-guide-slide="1"] h4{grid-column:1/-1;grid-row:2}
+#walkGuideModal .guide-slide[data-guide-slide="1"] p{grid-column:2;grid-row:3;align-self:start!important}
+#walkGuideModal .guide-slide[data-guide-slide="1"] .guide-small-character{grid-column:1;grid-row:3;width:calc(100% + 18px)!important;margin-left:-18px!important;height:100%!important;align-self:stretch!important;justify-self:start!important;object-position:left bottom!important}
+#walkGuideModal.guide-short .guide-slide-four.active{grid-template-columns:minmax(0,1fr) 29%!important;gap:8px 10px!important}
+#walkGuideModal.guide-short .guide-slide[data-guide-slide="1"] .guide-small-character{width:calc(100% + 14px)!important;margin-left:-14px!important}
+@media(min-width:700px) and (max-width:1199px){
+ .intro-screen .intro-bg{object-position:center bottom!important}
+ .intro-content-stack .hero{bottom:-5dvh!important;right:1vw!important;height:clamp(300px,42dvh,460px)!important}
+ .intro-content-stack .intro-copy{width:64%!important;max-width:none!important}
+ .intro-content-stack .intro-copy h1{width:100%!important;max-width:none!important;font-size:clamp(52px,7.5vw,82px)!important}
+ .intro-content-stack .intro-copy p{width:90%!important;max-width:420px!important}
+ #walkGuideModal .guide-slide[data-guide-slide="1"] .guide-small-character{width:calc(100% + 28px)!important;margin-left:-28px!important}
+}
+/* v25: the wide-screen context is a map, the central surface is the walk. */
+@media(min-width:443px){
+ body{display:grid!important;place-items:center!important;background:url('./assets/travel-map-background.jpg') center/cover no-repeat fixed!important}
+ #app.app{width:467px!important;max-width:100%!important;height:100dvh!important;min-height:0!important;max-height:none!important;margin:auto!important;border-radius:0!important;box-shadow:0 12px 40px rgba(47,31,24,.26)!important}
+ .content-modal,.info-gallery-fullscreen{left:50%!important;top:0!important;right:auto!important;bottom:auto!important;width:467px!important;max-width:100%!important;height:100dvh!important;transform:translateX(-50%)!important;border-radius:0!important;box-shadow:0 12px 40px rgba(47,31,24,.26)!important}
+ .intro-topbar{left:24px!important;right:20px!important;top:22px!important;grid-template-columns:80px minmax(0,1fr) 42px!important;gap:14px!important}
+ .intro-topbar .intro-sponsor,.intro-topbar .intro-sponsor img{width:80px!important}
+ .intro-topbar .intro-sponsor span{font-size:8px!important}
+ .intro-topbar .museum-logo-halo{width:178px!important;max-width:100%!important;margin:0!important;justify-self:end!important}
+ .intro-topbar .intro-burger{width:42px!important;height:42px!important}
+ .intro-content-stack{left:26px!important;right:26px!important;top:clamp(100px,13dvh,120px)!important;bottom:22px!important;width:auto!important}
+ .intro-content-stack .intro-copy{width:100%!important;max-width:100%!important}
+ .intro-content-stack .intro-copy h1{font-size:46px!important;line-height:1.01!important;width:100%!important;max-width:100%!important}
+ .intro-content-stack .intro-copy p{font-size:16px!important;line-height:1.32!important;width:260px!important;max-width:76%!important;margin-top:10px!important}
+ .intro-content-stack .intro-bottom{width:min(100%,340px)!important;max-width:340px!important}
+ .intro-content-stack .intro-bottom .btn{height:54px!important;min-height:54px!important;font-size:19px!important}
+ .intro-content-stack .hero{left:-22px!important;right:auto!important;bottom:-22px!important;height:clamp(260px,49dvh,420px)!important;max-width:76%!important;object-position:left bottom!important}
+ .intro-screen .intro-bg{object-position:center bottom!important}
+ .map-context{left:10px!important;right:10px!important;top:86px!important;max-width:none!important}
+ .point-sheet:not(.closed){left:0!important;right:0!important;top:auto!important;width:100%!important;max-height:calc(100% - 167px)!important;border-radius:24px 24px 0 0!important}
+ .point-sheet.closed{left:0!important;right:0!important;width:100%!important}
+ .route-select-head,.route-select-main{max-width:100%!important}
+ .route-choice-text strong{font-size:15px!important}.route-choice-text em{font-size:17px!important}
+ .route-detail-modal .content-modal-scroll{padding-inline:24px!important}
+ .story-image-slider .info-gallery-body{display:block!important;grid-template-columns:none!important}
+ .story-image-slider .info-gallery-frame{height:clamp(230px,42dvh,400px)!important;border-radius:9px 9px 0 0!important}
+ .story-image-slider figcaption{display:block!important;padding:16px!important;border-radius:0 0 9px 9px!important}
+ #walkGuideModal .guide-slide{padding:18px!important}
+ #walkGuideModal .guide-slide[data-guide-slide="1"] .guide-small-character{width:calc(100% + 18px)!important;margin-left:-18px!important}
+ #walkGuideModal .guide-slide.active:not(.guide-slide-four){grid-template-columns:minmax(0,1fr)!important;grid-template-rows:auto auto auto minmax(0,1fr)!important}
+ #walkGuideModal .guide-slide:not(.guide-slide-four) .guide-step-label{grid-column:1;grid-row:1}
+ #walkGuideModal .guide-slide:not(.guide-slide-four) h4{grid-column:1;grid-row:2}
+ #walkGuideModal .guide-slide:not(.guide-slide-four) p{grid-column:1;grid-row:3}
+ #walkGuideModal .guide-slide .guide-small-character{grid-column:1;grid-row:4}
+ #walkGuideModal .guide-slide[data-guide-slide="1"].active{grid-template-columns:42% minmax(0,1fr)!important;grid-template-rows:auto auto minmax(0,1fr)!important}
+ #walkGuideModal .guide-slide[data-guide-slide="1"] .guide-step-label,#walkGuideModal .guide-slide[data-guide-slide="1"] h4{grid-column:1/-1}
+ #walkGuideModal .guide-slide[data-guide-slide="1"] p{grid-column:2;grid-row:3}
+ #walkGuideModal .guide-slide[data-guide-slide="1"] .guide-small-character{grid-column:1;grid-row:3}
+}
+
+@media(min-width:443px) and (max-height:700px){
+ .intro-content-stack{top:96px!important;bottom:14px!important}
+ .intro-content-stack .intro-copy h1{font-size:40px!important}
+ .intro-content-stack .hero{height:45dvh!important;bottom:-14px!important}
+ .intro-content-stack .intro-bottom .btn{height:47px!important;min-height:47px!important}
+}
+
+/* v26: uninterrupted desktop backdrop; tablet walk becomes a full-width surface. */
+@media(min-width:443px){
+ #app.app,.content-modal,.info-gallery-fullscreen{height:100dvh!important;max-height:100dvh!important;border-radius:0!important;box-shadow:none!important}
+ .content-modal,.info-gallery-fullscreen{top:0!important;transform:translateX(-50%)!important}
+ .intro-topbar{left:24px!important;right:18px!important;grid-template-columns:80px minmax(0,1fr) 42px!important;gap:18px!important}
+ .intro-topbar .museum-logo-halo{width:178px!important;justify-self:end!important;margin:0!important}
+ .intro-content-stack{top:clamp(90px,10dvh,104px)!important}
+ .intro-content-stack .intro-copy p{width:260px!important;max-width:70%!important}
+}
+@media(min-width:1200px) and (pointer:fine){
+ .intro-content-stack .intro-copy h1{font-size:42px!important}
+ .intro-topbar .museum-logo-halo{width:166px!important}
+}
+/* Coarse pointers include large tablets; smaller browser windows use the same walk layout. */
+@media(min-width:443px){
+ body.walk-wide #app.app{width:100%!important;max-width:none!important;margin:0!important}
+ body.walk-wide .content-modal,body.walk-wide .info-gallery-fullscreen{left:0!important;width:100%!important;max-width:none!important;transform:none!important}
+ body.walk-wide .point-sheet:not(.closed){left:0!important;right:0!important;width:100%!important;max-height:calc(100% - 167px)!important}
+ body.walk-wide .point-sheet .point-content{padding-inline:clamp(20px,5vw,64px)!important}
+ body.walk-wide .point-sheet .audio-player{max-width:680px!important;margin-inline:auto!important}
+ body.walk-wide .point-sheet .point-nav{max-width:680px!important;margin-inline:auto!important}
+ body.walk-wide .point-story-scroll{padding-inline:clamp(24px,6vw,80px)!important}
+ body.walk-wide .route-detail-modal .content-modal-scroll{padding-inline:clamp(24px,6vw,80px)!important}
+}
+
+/* Header geometry follows the actual cropped curtain, not viewport breakpoints. */
+@media(min-width:443px){
+ .intro-topbar{display:block!important;left:24px!important;right:18px!important;width:auto!important;max-width:calc(100% - 42px)!important;height:48px!important;min-width:0!important}
+ .intro-topbar .intro-sponsor{position:absolute!important;left:0!important;top:0!important;right:auto!important;bottom:auto!important}
+ .intro-topbar .intro-burger{position:absolute!important;right:0!important;left:auto!important;top:0!important;bottom:auto!important}
+ .intro-topbar .museum-logo-halo{position:absolute!important;right:60px!important;left:auto!important;top:0!important;bottom:auto!important;width:var(--curtain-logo-width,150px)!important;max-width:calc(100% - 145px)!important;min-width:0!important;margin:0!important}
+ .intro-topbar .museum-logo{width:100%!important;max-width:100%!important;height:auto!important;min-width:0!important}
+}
